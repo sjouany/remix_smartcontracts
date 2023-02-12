@@ -96,6 +96,25 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					}
+				],
+				"name": "getProposaleVotedForUser",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getProposals",
 				"outputs": [
@@ -186,7 +205,7 @@
 				"inputs": [
 					{
 						"internalType": "string",
-						"name": "description",
+						"name": "_description",
 						"type": "string"
 					}
 				],
@@ -258,7 +277,7 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "proposalId",
+						"name": "_proposalId",
 						"type": "uint256"
 					}
 				],
@@ -351,11 +370,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0xb68fbde92b0a16f242dacb0416996545a8ec43be1e02f6d65764b22e68e9a1cf",
+			"keccak256": "0x87d09c417b113a8378063804ecbcaaac140917ac52c4c31b366676da6d0dce84",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://e2f8552c9b9d73d6a63a6d6fcf35a12f183ed130ce9e322eec4487bf15801170",
-				"dweb:/ipfs/QmPEjCy8EpSfdRA7dLzGb3EA5EdNWnoxcbHknXi8afzpJM"
+				"bzz-raw://e9cdbd1e5790668be9cdd11667e19a981cddb04cb05331c21fd23ac1635ddf44",
+				"dweb:/ipfs/QmfGNhq1guWQ4pcGDJL6t8gv4w8zstjnTTYBLpa27y6Tj2"
 			]
 		}
 	},

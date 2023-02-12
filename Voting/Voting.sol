@@ -117,7 +117,7 @@ contract Voting is Ownable {
     function _isVotingSessionEnded() internal view {
         require(
             status == WorkflowStatus.VotingSessionEnded,
-            "Voting is not closed."
+            "Voting is not closed or votes count is already done"
         );
     }
 
@@ -195,12 +195,12 @@ contract Voting is Ownable {
     }
 
     // function to register a proposal
-    function registerProposal(string memory description)
+    function registerProposal(string memory _description)
         external
         isWhitelisted
         isProposalsRegistrationStarted
     {
-        proposals.push(Proposal(description, 0));
+        proposals.push(Proposal(_description, 0));
         emit ProposalRegistered(proposals.length - 1);
     }
 
@@ -219,7 +219,7 @@ contract Voting is Ownable {
         return proposals;
     }
 
-    function voting(uint256 proposalId)
+    function voting(uint _proposalId)
         external
         isVotingSessionStarted
         isWhitelisted
@@ -229,13 +229,13 @@ contract Voting is Ownable {
             "You have already voted. Only one vote is allowed"
         );
         require(
-            proposalId < proposals.length,
+            _proposalId < proposals.length,
             "Proposal Id doesn't exist. Please select a valid proposal Id"
         );
-        proposals[proposalId].voteCount++;
-        whitelist[msg.sender].votedProposalId = proposalId;
+        proposals[_proposalId].voteCount++;
+        whitelist[msg.sender].votedProposalId = _proposalId;
         whitelist[msg.sender].hasVoted = true;
-        emit Voted(msg.sender, proposalId);
+        emit Voted(msg.sender, _proposalId);
     }
 
     function computeWinningProposal() 
@@ -243,9 +243,9 @@ contract Voting is Ownable {
         onlyOwner 
         isVotingSessionEnded
     {
-        uint256 maxVotes = 0;
-        uint256 tempWinningProposalId;
-        for (uint256 i = 0; i < proposals.length; i++) {
+        uint maxVotes = 0;
+        uint tempWinningProposalId;
+        for (uint i = 0; i < proposals.length; i++) {
             if (proposals[i].voteCount > maxVotes) {
                 maxVotes = proposals[i].voteCount;
                 tempWinningProposalId = i;
@@ -263,6 +263,19 @@ contract Voting is Ownable {
     {
        return proposals[winningProposalId];
     }  
+
+    function getProposaleVotedForUser(address _address)
+        external 
+        view 
+        isVotingSessionEnded
+        returns (string memory)
+    {
+        require(
+            whitelist[_address].hasVoted,
+            "This user didn't vote"
+        );
+        return proposals[whitelist[_address].votedProposalId].description;
+    }
 
  
 }
