@@ -3,8 +3,12 @@ pragma solidity 0.8.18;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/// @title A contract named Voting
+/// @author Sylvain JOUANY
+/// @notice Provide a voting contract
 contract Voting is Ownable {
-    // Enumeration to manage differents sates of voting
+
+    /// @notice Enumeration to manage differents sates of voting
     enum WorkflowStatus {
         RegisteringVoters,
         ProposalsRegistrationStarted,
@@ -14,54 +18,72 @@ contract Voting is Ownable {
         VotesTallied
     }
 
-    // Voter object definition
+    /// @notice Voter object definition
     struct Voter {
         bool isRegistered;
         bool hasVoted;
         uint256 votedProposalId;
     }
 
-    // Proposal object definition
+    /// @notice Proposal object definition
     struct Proposal {
         string description;
         uint256 voteCount;
     }
 
-    mapping(address => Voter) public whitelist;
+    /// @notice Mapping to link an address to a Voter
+    mapping(address => Voter) whitelist;
 
+    /// @notice Proposal array
     Proposal[] public proposals;
 
-    // Status for voting
+    /// @notice Current Status for voting
     WorkflowStatus public status;
 
+    /// @notice Id for winnning proposal
+    /// @dev Used to avoid to loop each time on proposals array to find the hisghest count for a proposal
     uint winningProposalId;
 
+    /// @notice Event emitted when a voter is registered
+    /// @param voterAddress address registered to the withelist
     event VoterRegistered(address voterAddress);
 
+    /// @notice Event emitted when the workflow status change
+    /// @param previousStatus previous status of the workflow
+    /// @param newStatus new status of the workflow
     event WorkflowStatusChange(
         WorkflowStatus previousStatus,
         WorkflowStatus newStatus
     );
 
-    event ProposalRegistered(uint256 proposalId);
+    /// @notice Event emitted when a new proposal is registered
+    /// @param proposalId proposal id for the new proposal registered
+    event ProposalRegistered(uint proposalId);
 
-    event Voted(address voter, uint256 proposalId);
+    /// @notice Event emitted when a voter do a vote
+    /// @param voter adress for the voter
+    /// @param proposalId proposal id choosen by the voter
+    event Voted(address voter, uint proposalId);
 
+    /// @notice Modifier to ensure the status is `RegisteringVoters`
     modifier isRegisteringVotersStatus() {
         _isRegisteringVotersStatus();
         _;
     }
 
+    /// @notice Modifier to ensure the status is `ProposalsRegistrationStarted`
     modifier isProposalsRegistrationStarted() {
         _isProposalsRegistrationStarted();
         _;
     }
 
+    /// @notice Modifier to ensure the status is `VotingSessionStarted`
     modifier isVotingSessionStarted() {
         _isVotingSessionStarted();
         _;
     }
 
+    /// @notice Modifier to ensure the status is `VotingSessionStarted`
     modifier isConsistantStatus(WorkflowStatus _status) {
         _isConsistantStatus(_status);
         _;
@@ -93,7 +115,7 @@ contract Voting is Ownable {
     // Throws if user is not whitelisted.
     function _isWhitelisted() internal view {
         require(
-            whitelist[msg.sender].isRegistered == true,
+            whitelist[msg.sender].isRegistered == true || owner() == msg.sender,
             "Only whitelisted voters are authorized to do this action."
         );
     }
@@ -169,6 +191,31 @@ contract Voting is Ownable {
         }
     }
 
+    function StartRegisteringVoters() external 
+    {
+        setStatus(WorkflowStatus.RegisteringVoters);
+    }
+
+    function StartProposalsRegistration() external 
+    {
+        setStatus(WorkflowStatus.ProposalsRegistrationStarted);
+    }
+
+    function StopProposalsRegistration() external 
+    {
+        setStatus(WorkflowStatus.ProposalsRegistrationEnded);
+    }
+
+    function StartVotingSession() external 
+    {
+        setStatus(WorkflowStatus.VotingSessionStarted);
+    }
+
+    function StopVotingSession() external 
+    {
+        setStatus(WorkflowStatus.VotingSessionEnded);
+    }
+
     // function to register a voter
     function registerVoter(address _voterAdress)
         external
@@ -238,7 +285,7 @@ contract Voting is Ownable {
         emit Voted(msg.sender, _proposalId);
     }
 
-    function computeWinningProposal() 
+    function discoverWinningProposal() 
         external 
         onlyOwner 
         isVotingSessionEnded
@@ -264,10 +311,10 @@ contract Voting is Ownable {
        return proposals[winningProposalId];
     }  
 
-    function getProposaleVotedForUser(address _address)
+    function getProposalVotedForUser(address _address)
         external 
         view 
-        isVotingSessionEnded
+        isWhitelisted
         returns (string memory)
     {
         require(
@@ -276,6 +323,4 @@ contract Voting is Ownable {
         );
         return proposals[whitelist[_address].votedProposalId].description;
     }
-
- 
 }

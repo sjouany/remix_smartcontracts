@@ -90,7 +90,42 @@
 			},
 			{
 				"inputs": [],
-				"name": "computeWinningProposal",
+				"name": "StartProposalsRegistration",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "StartRegisteringVoters",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "StartVotingSession",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "StopProposalsRegistration",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "StopVotingSession",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "discoverWinningProposal",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -103,7 +138,7 @@
 						"type": "address"
 					}
 				],
-				"name": "getProposaleVotedForUser",
+				"name": "getProposalVotedForUser",
 				"outputs": [
 					{
 						"internalType": "string",
@@ -285,35 +320,6 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "whitelist",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					},
-					{
-						"internalType": "bool",
-						"name": "hasVoted",
-						"type": "bool"
-					},
-					{
-						"internalType": "uint256",
-						"name": "votedProposalId",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -370,11 +376,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0x87d09c417b113a8378063804ecbcaaac140917ac52c4c31b366676da6d0dce84",
+			"keccak256": "0xac218343e631c3f45a0a03542b3098624859cb64c2ac3f1860034b271c2d15db",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://e9cdbd1e5790668be9cdd11667e19a981cddb04cb05331c21fd23ac1635ddf44",
-				"dweb:/ipfs/QmfGNhq1guWQ4pcGDJL6t8gv4w8zstjnTTYBLpa27y6Tj2"
+				"bzz-raw://b984619689fba00e125095af0163ffd7dc75ecf5ab829985b23c3485c1cc73f5",
+				"dweb:/ipfs/QmQLdKmYWn4wbbMPFytMdaNAeMF7FevdYMYCPKM79VafR7"
 			]
 		}
 	},
