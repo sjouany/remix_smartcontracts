@@ -27,21 +27,38 @@ contract Voting is Ownable {
         uint256 voteCount;
     }
 
+    mapping(address => Voter) public whitelist;
+
+    Proposal[] public proposals;
+
     // Status for voting
     WorkflowStatus public status;
 
+    uint winningProposalId;
+
     event VoterRegistered(address voterAddress);
+
     event WorkflowStatusChange(
         WorkflowStatus previousStatus,
         WorkflowStatus newStatus
     );
-    event ProposalRegistered(uint256 proposalId);
-    event Voted(address voter, uint256 proposalId);
 
-    mapping(address => Voter) whitelist;
+    event ProposalRegistered(uint256 proposalId);
+
+    event Voted(address voter, uint256 proposalId);
 
     modifier isRegisteringVotersStatus() {
         _isRegisteringVotersStatus();
+        _;
+    }
+
+    modifier isProposalsRegistrationStarted() {
+        _isProposalsRegistrationStarted();
+        _;
+    }
+
+    modifier isVotingSessionStarted() {
+        _isVotingSessionStarted();
         _;
     }
 
@@ -50,11 +67,52 @@ contract Voting is Ownable {
         _;
     }
 
-    // Throws if status different of RegisteringVoters .
+    modifier isWhitelisted() {
+        _isWhitelisted();
+        _;
+    }
+
+    modifier isVotingSessionEnded(){
+        _isVotingSessionEnded();
+        _;
+    }
+
+    // Throws if status different of RegisteringVoters.
     function _isRegisteringVotersStatus() internal view {
         require(
             status == WorkflowStatus.RegisteringVoters,
-            "registration period for voter is closed."
+            "Registration period for voter is closed."
+        );
+    }
+
+    // Throws if user is not whitelisted.
+    function _isWhitelisted() internal view {
+        require(
+            whitelist[msg.sender].isRegistered == true,
+            "Only whitelisted voters are authorized to do this action."
+        );
+    }
+
+    // Throws if status different of RegisteringVoters.
+    function _isProposalsRegistrationStarted() internal view {
+        require(
+            status == WorkflowStatus.ProposalsRegistrationStarted,
+            "Proposal registration is closed."
+        );
+    }
+
+    // Throws if status different of RegisteringVoters.
+    function _isVotingSessionStarted() internal view {
+        require(
+            status == WorkflowStatus.VotingSessionStarted,
+            "Voting session is closed."
+        );
+    }
+
+    function _isVotingSessionEnded() internal view {
+        require(
+            status == WorkflowStatus.VotingSessionEnded,
+            "Voting is not closed."
         );
     }
 
@@ -99,36 +157,87 @@ contract Voting is Ownable {
     }
 
     // function to register a voter
-    function registerVoter(address _voter)
+    function registerVoter(address _voterAdress)
         external
         onlyOwner
         isRegisteringVotersStatus
     {
-        whitelist[_voter].isRegistered = true;
-        emit VoterRegistered(_voter);
+        whitelist[_voterAdress].isRegistered = true;
+        emit VoterRegistered(_voterAdress);
     }
 
-    // function to register a whitelist
-    function registerVoters(address[] memory _voters)
+    // function to register a several voters
+    function registerVoters(address[] memory _votersAdresses)
         external
         onlyOwner
         isRegisteringVotersStatus
     {
-        for (uint256 i = 0; i < _voters.length; i++) {
-            whitelist[_voters[i]].isRegistered = true;
-            emit VoterRegistered(_voters[i]);
+        for (uint256 i = 0; i < _votersAdresses.length; i++) {
+            whitelist[_votersAdresses[i]].isRegistered = true;
+            emit VoterRegistered(_votersAdresses[i]);
         }
     }
 
-       // function to register a whitelist
-    function setStatus(WorkflowStatus _status)
+    // function to register a proposal
+    function registerProposal(string memory description)
         external
+        isWhitelisted
+        isProposalsRegistrationStarted
+    {
+        proposals.push(Proposal(description, 0));
+        emit ProposalRegistered(proposals.length - 1);
+    }
+
+    // function to register a whitelist
+    function setStatus(WorkflowStatus _status)
+        internal
         onlyOwner
         isConsistantStatus(_status)
     {
+        WorkflowStatus oldStatus = status;
         status = _status;
+        emit WorkflowStatusChange(oldStatus, _status);
     }
 
+    function getProposals() public view returns (Proposal[] memory) {
+        return proposals;
+    }
+
+    function voting(uint256 proposalId)
+        external
+        isVotingSessionStarted
+        isWhitelisted
+    {
+        require(
+            whitelist[msg.sender].hasVoted == false,
+            "You have already voted. Only one vote is allowed"
+        );
+        require(
+            proposalId < proposals.length,
+            "Proposal Id doesn't exist. Please select a valid proposal Id"
+        );
+        proposals[proposalId].voteCount++;
+        whitelist[msg.sender].votedProposalId = proposalId;
+        whitelist[msg.sender].hasVoted = true;
+        emit Voted(msg.sender, proposalId);
+    }
+
+    function computeWinningProposal() 
+        external 
+        onlyOwner 
+        isVotingSessionEnded
+    {
+        uint256 maxVotes = 0;
+        uint256 tempWinningProposalId;
+        for (uint256 i = 0; i < proposals.length; i++) {
+            if (proposals[i].voteCount > maxVotes) {
+                maxVotes = proposals[i].voteCount;
+                tempWinningProposalId = i;
+            }
+        }
+        winningProposalId = tempWinningProposalId;
+        setStatus(WorkflowStatus.VotesTallied);
+    }
 
     // fonction getWinner to implement (best in term of costing than store an attribute like winningProposalId)
 }

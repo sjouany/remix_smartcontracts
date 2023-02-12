@@ -90,6 +90,38 @@
 			},
 			{
 				"inputs": [],
+				"name": "computeWinningProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getProposals",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "voteCount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Voting.Proposal[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
@@ -104,8 +136,45 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "proposals",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "voteCount",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					}
+				],
+				"name": "registerProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
-						"name": "_voter",
+						"name": "_voterAdress",
 						"type": "address"
 					}
 				],
@@ -118,7 +187,7 @@
 				"inputs": [
 					{
 						"internalType": "address[]",
-						"name": "_voters",
+						"name": "_votersAdresses",
 						"type": "address[]"
 					}
 				],
@@ -130,19 +199,6 @@
 			{
 				"inputs": [],
 				"name": "renounceOwnership",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "enum Voting.WorkflowStatus",
-						"name": "_status",
-						"type": "uint8"
-					}
-				],
-				"name": "setStatus",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -171,6 +227,48 @@
 				"name": "transferOwnership",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "voting",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "whitelist",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "isRegistered",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "hasVoted",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "votedProposalId",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -228,11 +326,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0xb2abcd659221f6122e2fb1a7628df581d561648a034e731b59cd56840427371b",
+			"keccak256": "0xe9f369b0e2ab4f8bbe0781dde3a78967f519cf2e9f0bba75712a31b62d1b8802",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://e08867a33236fa803025d1717ebc74966d3b3848388e9c879f08a4f6dda5a7ac",
-				"dweb:/ipfs/QmdhBBGMaMs1QaWxwXh2AKH8wrPRbVpHkxHyv6z1rPVDDR"
+				"bzz-raw://0897c7f9dbf3ae9adc0ebbdc5e0b0599e3ee536a9a963fa3726255daef1033c6",
+				"dweb:/ipfs/QmZz1FT81X72eKgLFFFhV4MySdWW75YqzvF49aYfnR6gDr"
 			]
 		}
 	},
