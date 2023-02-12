@@ -77,6 +77,11 @@ contract Voting is Ownable {
         _;
     }
 
+    modifier isVotesTallied(){
+        _isVotesTallied();
+        _;
+    }
+
     // Throws if status different of RegisteringVoters.
     function _isRegisteringVotersStatus() internal view {
         require(
@@ -115,6 +120,14 @@ contract Voting is Ownable {
             "Voting is not closed."
         );
     }
+
+    function _isVotesTallied() internal view {
+        require(
+            status == WorkflowStatus.VotesTallied,
+            "Votes count is not yet done"
+        );
+    }
+
 
     // Throws if status the workflow is not followed .
     function _isConsistantStatus(WorkflowStatus _status) internal view {
@@ -162,6 +175,7 @@ contract Voting is Ownable {
         onlyOwner
         isRegisteringVotersStatus
     {
+        require(whitelist[_voterAdress].isRegistered == false, "Voter is already whitelisted");
         whitelist[_voterAdress].isRegistered = true;
         emit VoterRegistered(_voterAdress);
     }
@@ -173,8 +187,10 @@ contract Voting is Ownable {
         isRegisteringVotersStatus
     {
         for (uint256 i = 0; i < _votersAdresses.length; i++) {
-            whitelist[_votersAdresses[i]].isRegistered = true;
-            emit VoterRegistered(_votersAdresses[i]);
+            if ( whitelist[_votersAdresses[i]].isRegistered = true){
+                whitelist[_votersAdresses[i]].isRegistered = true;
+                emit VoterRegistered(_votersAdresses[i]);
+            }
         }
     }
 
@@ -209,7 +225,7 @@ contract Voting is Ownable {
         isWhitelisted
     {
         require(
-            whitelist[msg.sender].hasVoted == false,
+            !whitelist[msg.sender].hasVoted,
             "You have already voted. Only one vote is allowed"
         );
         require(
@@ -239,5 +255,14 @@ contract Voting is Ownable {
         setStatus(WorkflowStatus.VotesTallied);
     }
 
-    // fonction getWinner to implement (best in term of costing than store an attribute like winningProposalId)
+    function getWinningProposalDetails() 
+        external 
+        view
+        isVotesTallied
+        returns (Proposal memory)
+    {
+       return proposals[winningProposalId];
+    }  
+
+ 
 }

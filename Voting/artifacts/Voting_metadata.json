@@ -122,6 +122,31 @@
 			},
 			{
 				"inputs": [],
+				"name": "getWinningProposalDetails",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "voteCount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Voting.Proposal",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
@@ -326,11 +351,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0xe9f369b0e2ab4f8bbe0781dde3a78967f519cf2e9f0bba75712a31b62d1b8802",
+			"keccak256": "0xb68fbde92b0a16f242dacb0416996545a8ec43be1e02f6d65764b22e68e9a1cf",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0897c7f9dbf3ae9adc0ebbdc5e0b0599e3ee536a9a963fa3726255daef1033c6",
-				"dweb:/ipfs/QmZz1FT81X72eKgLFFFhV4MySdWW75YqzvF49aYfnR6gDr"
+				"bzz-raw://e2f8552c9b9d73d6a63a6d6fcf35a12f183ed130ce9e322eec4487bf15801170",
+				"dweb:/ipfs/QmPEjCy8EpSfdRA7dLzGb3EA5EdNWnoxcbHknXi8afzpJM"
 			]
 		}
 	},
