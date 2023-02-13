@@ -461,7 +461,7 @@
 					"notice": "Get details of winning proposal"
 				},
 				"proposals(uint256)": {
-					"notice": "Proposal array"
+					"notice": "Proposals array"
 				},
 				"registerProposal(string)": {
 					"notice": "Register a new proposal."
@@ -516,11 +516,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0xf217ddd3f24d9dba2a57cf2d737c4656206ad69d4bf55d875d235b202c0fdecd",
+			"keccak256": "0xf3493d308971a04283ed944f5536b94624f663511fb4fc649438bb491ebc66be",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://53648c9d6fdfb12c7ea3ea7e83d91a6105b1e57fba8cfa90e46e3664f19bd268",
-				"dweb:/ipfs/QmUxUqtcvcgFsKTi9ny2JbEzNybUFZN5ejeCRHFphyn4hL"
+				"bzz-raw://d8a0d0dd617ae59dbeae63c472726baa0482011bff561aa61e48635711f23e80",
+				"dweb:/ipfs/QmPHPv6ykjjvATMXGGnshaMHdkhX1cMVRNHeNvMzCFmiD8"
 			]
 		}
 	},

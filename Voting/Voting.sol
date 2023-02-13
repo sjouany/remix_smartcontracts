@@ -239,7 +239,7 @@ contract Voting is Ownable {
     /// @notice Register several new addresses to the whitelist.
     /// @param _votersAdresses Addresses to add to the whitelist
     /// @dev Already registered addresses are ignored
-    function registerVoters(address[] memory _votersAdresses)
+    function registerVoters(address[] calldata _votersAdresses)
         external
         onlyOwner
         isRegisteringVotersStatus
@@ -255,7 +255,7 @@ contract Voting is Ownable {
 
     /// @notice Register a new proposal.
     /// @param _description Proposal description
-    function registerProposal(string memory _description)
+    function registerProposal(string calldata _description)
         external
         isWhitelisted
         isProposalsRegistrationStarted
