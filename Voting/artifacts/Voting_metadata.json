@@ -516,11 +516,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0x2ce7e770d8c9ad874ffc0613991942613d0f2d2c783412daeba428c6d8d03924",
+			"keccak256": "0xf217ddd3f24d9dba2a57cf2d737c4656206ad69d4bf55d875d235b202c0fdecd",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://bc8b4d18230aba9288feab95893de9d3eb314e8657eef225424a56fe8fd9813d",
-				"dweb:/ipfs/QmfCvkV9u1S8BGJ2tS92XtHMm783r9eGKRRQM4kLXeEoMX"
+				"bzz-raw://53648c9d6fdfb12c7ea3ea7e83d91a6105b1e57fba8cfa90e46e3664f19bd268",
+				"dweb:/ipfs/QmUxUqtcvcgFsKTi9ny2JbEzNybUFZN5ejeCRHFphyn4hL"
 			]
 		}
 	},

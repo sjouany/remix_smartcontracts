@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @author Sylvain JOUANY
 /// @notice Provide a voting contract
 contract Voting is Ownable {
-    /// @notice Enumeration to manage differents sates of voting
+    /// @notice Enumeration to manage different sates of voting
     enum WorkflowStatus {
         RegisteringVoters,
         ProposalsRegistrationStarted,
@@ -30,10 +30,10 @@ contract Voting is Ownable {
         uint256 voteCount;
     }
 
-    /// @notice Mapping to link an address to a Voter
+    /// @notice Mapping to link an address with a Voter
     mapping(address => Voter) whitelist;
 
-    /// @notice Proposal array
+    /// @notice Proposals array
     /// @dev public to be able to get a proposal by id
     Proposal[] public proposals;
 
