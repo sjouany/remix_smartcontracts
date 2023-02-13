@@ -253,7 +253,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_voterAdress",
+						"name": "_voterAddress",
 						"type": "address"
 					}
 				],
@@ -323,23 +323,163 @@
 			}
 		],
 		"devdoc": {
+			"author": "Sylvain JOUANY",
+			"events": {
+				"ProposalRegistered(uint256)": {
+					"params": {
+						"proposalId": "Proposal id for the new proposal registered"
+					}
+				},
+				"Voted(address,uint256)": {
+					"params": {
+						"proposalId": "Proposal id choosen by the voter",
+						"voter": "Address for the voter"
+					}
+				},
+				"VoterRegistered(address)": {
+					"params": {
+						"voterAddress": "Address registered to the withelist"
+					}
+				},
+				"WorkflowStatusChange(uint8,uint8)": {
+					"params": {
+						"newStatus": "New status of the workflow",
+						"previousStatus": "Previous status of the workflow"
+					}
+				}
+			},
 			"kind": "dev",
 			"methods": {
+				"discoverWinningProposal()": {
+					"details": "Stored inside a contract variable to avoid to loop on the array many times during voters results consultation"
+				},
+				"getProposalVotedForUser(address)": {
+					"params": {
+						"_address": "Address of a Voter"
+					},
+					"returns": {
+						"_0": "description of the proposal chosen by the voter"
+					}
+				},
+				"getProposals()": {
+					"returns": {
+						"_0": "Proposals array"
+					}
+				},
+				"getWinningProposalDetails()": {
+					"returns": {
+						"_0": "proposal details"
+					}
+				},
 				"owner()": {
 					"details": "Returns the address of the current owner."
+				},
+				"registerProposal(string)": {
+					"params": {
+						"_description": "Proposal description"
+					}
+				},
+				"registerVoter(address)": {
+					"params": {
+						"_voterAddress": "Address to add to the whitelist"
+					}
+				},
+				"registerVoters(address[])": {
+					"details": "Already registered addresses are ignored",
+					"params": {
+						"_votersAdresses": "Addresses to add to the whitelist"
+					}
 				},
 				"renounceOwnership()": {
 					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
 				},
 				"transferOwnership(address)": {
 					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				},
+				"voting(uint256)": {
+					"params": {
+						"_proposalId": "Proposal id choosen by the voter"
+					}
 				}
 			},
+			"stateVariables": {
+				"proposals": {
+					"details": "public to be able to get a proposal by id"
+				},
+				"status": {
+					"details": "public to be able to get the current status"
+				},
+				"winningProposalId": {
+					"details": "Used to avoid to loop each time on proposals array to find the hisghest count for a proposal"
+				}
+			},
+			"title": "A contract named Voting",
 			"version": 1
 		},
 		"userdoc": {
+			"events": {
+				"ProposalRegistered(uint256)": {
+					"notice": "Event emitted when a new proposal is registered"
+				},
+				"Voted(address,uint256)": {
+					"notice": "Event emitted when a voter do a vote"
+				},
+				"VoterRegistered(address)": {
+					"notice": "Event emitted when a voter is registered"
+				},
+				"WorkflowStatusChange(uint8,uint8)": {
+					"notice": "Event emitted when the workflow status change"
+				}
+			},
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"StartProposalsRegistration()": {
+					"notice": "Set ProposalsRegistrationStarted status."
+				},
+				"StartRegisteringVoters()": {
+					"notice": "Set RegisteringVoters status."
+				},
+				"StartVotingSession()": {
+					"notice": "Set VotingSessionStarted status."
+				},
+				"StopProposalsRegistration()": {
+					"notice": "Set ProposalsRegistrationEnded status."
+				},
+				"StopVotingSession()": {
+					"notice": "Set VotingSessionEnded status."
+				},
+				"discoverWinningProposal()": {
+					"notice": "Store the winning proposal id"
+				},
+				"getProposalVotedForUser(address)": {
+					"notice": "Get details of winning proposal"
+				},
+				"getProposals()": {
+					"notice": "Get all proposals"
+				},
+				"getWinningProposalDetails()": {
+					"notice": "Get details of winning proposal"
+				},
+				"proposals(uint256)": {
+					"notice": "Proposal array"
+				},
+				"registerProposal(string)": {
+					"notice": "Register a new proposal."
+				},
+				"registerVoter(address)": {
+					"notice": "Register an new address to the whitelist."
+				},
+				"registerVoters(address[])": {
+					"notice": "Register several new addresses to the whitelist."
+				},
+				"status()": {
+					"notice": "Current Status for voting"
+				},
+				"voting(uint256)": {
+					"notice": "execute a vote"
+				}
+			},
+			"notice": "Provide a voting contract",
 			"version": 1
 		}
 	},
@@ -376,11 +516,11 @@
 			]
 		},
 		"Voting/Voting.sol": {
-			"keccak256": "0xac218343e631c3f45a0a03542b3098624859cb64c2ac3f1860034b271c2d15db",
+			"keccak256": "0x2ce7e770d8c9ad874ffc0613991942613d0f2d2c783412daeba428c6d8d03924",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://b984619689fba00e125095af0163ffd7dc75ecf5ab829985b23c3485c1cc73f5",
-				"dweb:/ipfs/QmQLdKmYWn4wbbMPFytMdaNAeMF7FevdYMYCPKM79VafR7"
+				"bzz-raw://bc8b4d18230aba9288feab95893de9d3eb314e8657eef225424a56fe8fd9813d",
+				"dweb:/ipfs/QmfCvkV9u1S8BGJ2tS92XtHMm783r9eGKRRQM4kLXeEoMX"
 			]
 		}
 	},
